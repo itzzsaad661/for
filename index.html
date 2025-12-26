@@ -1,14 +1,514 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Private anniversary website — emotional, premium, and personal." />
-    <title>Our Anniversary</title>
-  </head>
-  <body class="bg-rose-50 text-gray-800">
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-  </html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Private anniversary website — emotional, premium, and personal." />
+  <title>Welcome</title>
+  <style>
+    :root { --rose-50:#fff1f5; --rose-100:#ffe4ea; --rose-200:#ffcbd7; --rose-400:#ff6d95; --rose-500:#ff447a; --rose-600:#e73369; --rose-700:#bf2554; --romance:#ff6d95 }
+    * { box-sizing: border-box }
+    html, body { height: 100% }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji"; color:#374151; background-image: linear-gradient(to bottom, var(--rose-50), var(--rose-100) 50%, var(--rose-50)); }
+    .container-padded { max-width: 1040px; margin: 0 auto; padding: 0 16px }
+    .card { background: rgba(255,255,255,0.8); backdrop-filter: blur(8px); border-radius: 18px; box-shadow: 0 10px 30px rgba(255,105,135,.25); padding: 20px }
+    .soft-border { border: 1px solid var(--rose-100) }
+    .shadow-glow { box-shadow: 0 0 30px rgba(255,105,135,.35) }
+    .rounded-full { border-radius: 9999px }
+    .btn { border: none; border-radius: 9999px; padding: 12px 18px; font-weight: 600; cursor: pointer; transition: transform .15s ease, box-shadow .15s ease, background .15s ease }
+    .btn:active { transform: scale(.98) }
+    .btn-primary { background: var(--rose-500); color: white }
+    .btn-primary:hover { background: var(--rose-600) }
+    .btn-outline { background: rgba(255,255,255,.85); color: var(--rose-700); border: 1px solid var(--rose-100); box-shadow: 0 2px 12px rgba(0,0,0,.06) }
+    .btn-outline:hover { background: #fff }
+    h1,h2,h3 { color: var(--rose-700); margin: 0 }
+    p { margin: 0 }
+    .grid { display: grid; gap: 16px }
+    @media (min-width: 768px) { .grid-2 { grid-template-columns: repeat(2,minmax(0,1fr)) } .grid-3 { grid-template-columns: repeat(3,minmax(0,1fr)) } .grid-4 { grid-template-columns: repeat(4,minmax(0,1fr)) } }
+    .reveal { opacity: 0; transform: translateY(16px); transition: opacity .7s ease, transform .7s ease }
+    .reveal.show { opacity: 1; transform: translateY(0) }
+    .typewriter { overflow: hidden; white-space: nowrap; border-right: 2px solid var(--rose-400); animation: typewriter 4s steps(26) 1s 1 normal both, blinkCaret 900ms steps(1) infinite }
+    @keyframes typewriter { from { width:0 } to { width:100% } }
+    @keyframes blinkCaret { 0%,100% { border-color: transparent } 50% { border-color: var(--rose-400) } }
+    .animate-fade-in { animation: fadeIn 1.2s ease-out forwards } @keyframes fadeIn { 0%{opacity:0}100%{opacity:1} }
+    .animate-slide-up { animation: slideUp .7s ease-out forwards } @keyframes slideUp { 0%{opacity:0;transform:translateY(20px)} 100%{opacity:1;transform:translateY(0)} }
+    .count-pulse { animation: countPulse 600ms ease-in-out } @keyframes countPulse { 0%{transform:scale(1)}50%{transform:scale(1.06)}100%{transform:scale(1)} }
+    .heart-pulse { animation: heartPulse 1000ms ease-in-out } @keyframes heartPulse { 0%,100%{transform:scale(1);opacity:.7} 50%{transform:scale(1.15);opacity:1} }
+    .heart { position: absolute; width: 18px; height: 18px; background: var(--romance); transform: rotate(45deg); opacity: .85 }
+    .heart::before, .heart::after { content:''; position:absolute; width:18px; height:18px; background: var(--romance); border-radius: 50% }
+    .heart::before { left:-9px } .heart::after { top:-9px }
+    .animate-float-heart { animation: floatHeart 9s linear infinite } @keyframes floatHeart { 0%{transform:translateY(0) scale(.9);opacity:.6} 50%{opacity:1} 100%{transform:translateY(-120vh) scale(1.1);opacity:0} }
+    .modal { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; padding: 16px; background: rgba(0,0,0,.5); backdrop-filter: blur(3px); z-index: 50 }
+    .modal.show { display: flex }
+    .lightbox-img { width: 100%; max-height: 80vh; object-fit: contain; border-radius: 16px; box-shadow: 0 20px 40px rgba(0,0,0,.25) }
+    .fixed-audio { position: fixed; right: 20px; bottom: 20px; z-index: 40; width: 92vw; max-width: 520px }
+    .caption { margin-top: 6px; text-align: center; font-size: 12px; color: #9f1239 }
+    .hidden { display: none !important }
+    .breathe { animation: breathe 6s ease-in-out infinite } @keyframes breathe { 0%,100%{transform:scale(1)}50%{transform:scale(1.02)} }
+    .gradient-motion { background-size: cover; background-position: center; background-repeat: no-repeat }
+    .float-slow { animation: floatSlow 20s ease-in-out infinite } @keyframes floatSlow { 0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)} }
+    .image-tile { position: relative; overflow: hidden; border-radius: 16px; border: 1px solid var(--rose-100); background: rgba(255,255,255,.85); box-shadow: 0 8px 20px rgba(0,0,0,.06) }
+    .image-tile img { aspect-ratio: 1 / 1; width: 100%; object-fit: cover; transition: transform .3s ease }
+    .image-tile:hover img { transform: scale(1.05) }
+    .image-overlay { position:absolute; inset:0; background: linear-gradient(to top, rgba(255, 228, 234, .5), transparent); opacity:0; transition: opacity .25s ease }
+    .image-tile:hover .image-overlay { opacity:1 }
+  </style>
+</head>
+<body>
+  <div id="gate" class="relative" style="min-height:100vh; display:flex; align-items:center; justify-content:center; overflow:hidden">
+    <div id="gate-hearts" class="absolute inset-0 pointer-events-none" style="opacity:.3"></div>
+    <div class="card soft-border" style="width:92%; max-width:560px; text-align:center">
+      <h1 style="font-size:28px">For us only</h1>
+      <p style="margin-top:8px; font-size:14px; color:#e11d48">Enter the date we started (DD/MM/YYYY)</p>
+      <form id="gate-form" style="margin-top:16px">
+        <input id="gate-input" inputmode="text" maxlength="10" placeholder="DD/MM/YYYY" style="width:100%; border-radius:14px; border:1px solid var(--rose-100); background:rgba(255,255,255,.8); padding:12px 14px; text-align:center; font-size:18px; letter-spacing:.12em; outline:none" />
+        <button class="btn btn-primary" style="width:100%; margin-top:12px">Enter</button>
+        <p id="gate-error" class="animate-fade-in" style="display:none; margin-top:8px; font-size:13px; color:#e11d48"></p>
+        <p style="margin-top:8px; font-size:11px; color:#fb7185">Password stays on your device only.</p>
+      </form>
+    </div>
+  </div>
 
+  <div id="audio-wrap" class="fixed-audio hidden">
+    <div class="card soft-border" style="display:flex; align-items:center; gap:12px; width:100%">
+      <span style="color:var(--rose-700); font-weight:500">Music</span>
+      <button id="btnPlay" class="btn btn-primary">Play</button>
+      <button id="btnPause" class="btn btn-primary hidden">Pause</button>
+      <span id="audioHint" style="color:#fb7185; font-size:13px; margin-left:auto"></span>
+    </div>
+    <p class="caption animate-fade-in">This song reminds me of you.<br />I play it when I miss you… even when you’re right here.</p>
+  </div>
+
+  <header id="landing" class="relative" style="min-height:70vh; display:flex; align-items:center; justify-content:center">
+    <div id="landing-hearts" class="absolute inset-0 pointer-events-none"></div>
+    <div class="container-padded" style="text-align:center; padding:96px 0">
+      <h1 class="animate-slide-up" style="font-size:48px">Happy 5 Years, My Love ❤️</h1>
+      <p class="typewriter" style="margin-top:12px; font-size:18px; color:#fb7185; max-width:720px; margin-left:auto; margin-right:auto">Five years of choosing you — quiet mornings, late walks, and home in your smile.</p>
+      <div style="margin-top:28px; display:flex; align-items:center; justify-content:center; gap:12px">
+        <button id="startStory" class="btn btn-primary shadow-glow">Start Our Story</button>
+        <button id="reasonsBtn" class="btn btn-outline shadow-glow">Click to see why I choose you every day 💖</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="container-padded hidden" style="padding-bottom:110px">
+    <section id="timeline">
+      <div class="relative">
+        <h2 style="font-size:28px; margin-bottom:16px">Our timeline</h2>
+        <div class="grid grid-2">
+          <div class="card soft-border reveal">
+            <div style="display:flex; align-items:center; gap:10px"><span style="font-size:20px">🥰</span><h3 style="font-size:20px">Year 1 · Just Friends, Forever Close</h3></div>
+            <p style="margin-top:8px; color:#9f1239">We started as just friends, but so deeply connected. Laughing endlessly, sharing everything — some of the best days of my life were born here.</p>
+          </div>
+          <div class="card soft-border reveal">
+            <div style="display:flex; align-items:center; gap:10px"><span style="font-size:20px">🌿</span><h3 style="font-size:20px">Year 2 · Our Golden Moments</h3></div>
+            <p style="margin-top:8px; color:#9f1239">This year gave us memories we’ll always hold close. Everything felt brighter, happier, and full of love.</p>
+          </div>
+          <div class="card soft-border reveal">
+            <div style="display:flex; align-items:center; gap:10px"><span style="font-size:20px">☕️</span><h3 style="font-size:20px">Year 3 · Growing Through It All</h3></div>
+            <p style="margin-top:8px; color:#9f1239">Not everything was easy — there were ups and downs. But those moments made us stronger, closer, and better together.</p>
+          </div>
+          <div class="card soft-border reveal">
+            <div style="display:flex; align-items:center; gap:10px"><span style="font-size:20px">💪</span><h3 style="font-size:20px">Year 4 · Moments That Meant Everything</h3></div>
+            <p style="margin-top:8px; color:#9f1239">Our meetups became the highlight of everything. Time with you felt special, comforting, and unforgettable.</p>
+          </div>
+          <div class="card soft-border reveal">
+            <div style="display:flex; align-items:center; gap:10px"><span style="font-size:20px">🏡</span><h3 style="font-size:20px">Year 5 · Deeply Us</h3></div>
+            <p style="margin-top:8px; color:#9f1239">Now we’re completely into each other — connected, longing, and choosing one another every day. Our love feels deeper than ever</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="gallery" style="margin-top:40px">
+      <h2 style="font-size:28px; margin-bottom:16px">Photos I love</h2>
+      <div id="gallery-grid" class="grid" style="grid-template-columns: repeat(2, minmax(0,1fr))"></div>
+    </section>
+
+    <section id="letter" style="margin-top:40px">
+      <div class="card soft-border">
+        <h2 style="font-size:28px; margin-bottom:12px">A letter for you</h2>
+        <div style="background: rgba(255,255,255,.7); border-radius:16px; padding:18px; box-shadow: 0 2px 8px rgba(0,0,0,.04)">
+          <p style="font-family: 'Segoe Script','Brush Script MT','Lucida Handwriting',cursive; font-size:18px; line-height:1.6; color:#9f1239">
+            To My bubu,<br /><br />
+            Five years ago, we started a journey that began with simple laughter and a friendship that felt like home. Looking at our timeline today, I am overwhelmed by how much life we have lived in such a short time. We’ve gone from "Just Friends" to "Deeply Us," and every version of us along the way has been my favorite.<br /><br />
+            I love the way we’ve grown together. I love that you are still the person who makes me laugh at my own jokes and the person who makes the world feel soft when everything else feels loud. Whether we are walking through a crowded street or just sitting in the quiet of our room, my hand always finds yours because that is where I feel most at peace.<br /><br />
+            Thank you for the patience you show me, the honesty we share, and the way you celebrate my smallest wins as if they were the biggest victories in the world. You’ve seen me through the highs of our "Golden Moments" and the "ups and downs" that only made us stronger.<br /><br />
+            As the timer on this page keeps ticking, I’m reminded that every second with you is a gift. I love the life we are building—one that is slow, steady, and entirely ours. I’ll keep showing up for you, the way you’ve always shown up for me.<br /><br />
+            I love you, forever and a day.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="reminder" style="margin-top:40px; text-align:center">
+      <h2 style="font-size:28px">A little reminder 💖</h2>
+      <div style="margin-top:12px; display:flex; justify-content:center">
+        <button id="loveBtn" class="btn btn-primary shadow-glow">click me harder babes</button>
+      </div>
+    </section>
+
+    <section id="counter" style="margin-top:40px">
+      <div class="card soft-border" style="text-align:center">
+        <p style="color:var(--rose-700); font-weight:500">We’ve been together for</p>
+        <div style="margin-top:8px; display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:10px">
+          <div class="count-pulse"><span style="font-size:22px; color:var(--rose-700); font-weight:600" id="years">0</span><span style="margin-left:4px; color:#9f1239">years</span></div>
+          <div class="count-pulse"><span style="font-size:22px; color:var(--rose-700); font-weight:600" id="months">0</span><span style="margin-left:4px; color:#9f1239">months</span></div>
+          <div class="count-pulse"><span style="font-size:22px; color:var(--rose-700); font-weight:600" id="days">0</span><span style="margin-left:4px; color:#9f1239">days</span></div>
+          <div class="count-pulse"><span style="font-size:22px; color:var(--rose-700); font-weight:600" id="hours">0</span><span style="margin-left:4px; color:#9f1239">hours</span></div>
+          <div class="count-pulse"><span style="font-size:22px; color:var(--rose-700); font-weight:600" id="minutes">0</span><span style="margin-left:4px; color:#9f1239">minutes</span></div>
+          <div class="count-pulse"><span style="font-size:22px; color:var(--rose-700); font-weight:600" id="seconds">0</span><span style="margin-left:4px; color:#9f1239">seconds</span></div>
+          <span class="heart-pulse" style="margin-left:8px; color:var(--rose-500)">❤️</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="final" style="margin-top:40px">
+      <div class="card soft-border" style="text-align:center">
+        <h2 style="font-size:32px; font-weight:700">Still you. Always you.</h2>
+        <p style="margin-top:8px; color:#fb7185">Happy Anniversary ❤️</p>
+      </div>
+    </section>
+
+    <section id="endgame" style="margin-top:40px">
+      <div style="display:flex; justify-content:center">
+        <button id="endgameBtn" class="btn btn-primary shadow-glow">One last click, bubu</button>
+      </div>
+    </section>
+  </main>
+
+  <div id="reasonsModal" class="modal">
+    <div class="card soft-border" style="max-width:720px; width:100%" onclick="event.stopPropagation()">
+      <h3 style="font-size:20px; font-weight:600">Why I choose you</h3>
+      <div id="reasonsGrid" class="grid" style="margin-top:12px; grid-template-columns: repeat(1, minmax(0,1fr)); gap:12px"></div>
+      <div style="margin-top:18px; display:flex; justify-content:center">
+        <button id="reasonsClose" class="btn btn-primary">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="loveModal" class="modal" onclick="event.currentTarget.classList.remove('show')">
+    <div class="card soft-border" style="width:92%; max-width:640px; position:relative" onclick="event.stopPropagation()">
+      <button id="loveClose" class="btn btn-primary" style="position:absolute; top:12px; right:12px; padding:6px 12px">×</button>
+      <div style="padding:18px">
+        <p id="loveText" style="color:#9f1239; font-size:18px"></p>
+        <div style="margin-top:12px; display:flex; justify-content:center">
+          <button id="loveNext" class="btn btn-primary">Press me harder</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="lightbox" class="modal" onclick="event.currentTarget.classList.remove('show')">
+    <div style="width:92%; max-width:960px" onclick="event.stopPropagation()">
+      <img id="lightboxImg" class="lightbox-img" alt="Photo" />
+      <div style="margin-top:12px; display:flex; justify-content:center">
+        <button id="lightboxClose" class="btn btn-outline">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="endgameOverlay" class="modal" style="z-index:1000; background-image:url('public/images/Gemini_Generated_Image_vvq3qrvvq3qrvvq3.png')" onclick="event.stopPropagation()">
+    <canvas id="endgameCanvas" style="position:absolute; inset:0"></canvas>
+    <div class="breathe" style="text-align:center; position:relative">
+      <div class="animate-fade-in" style="color:var(--rose-700); font-size:24px; font-weight:600; animation-delay:200ms">No matter what changes…</div>
+      <div class="animate-fade-in" style="margin-top:8px; color:var(--rose-700); font-size:24px; font-weight:600; animation-delay:1200ms">one thing won’t.</div>
+      <div class="animate-fade-in" style="margin-top:16px; color:var(--rose-700); font-size:32px; font-weight:700; animation-delay:2200ms">It’s you.</div>
+    </div>
+  </div>
+
+  <script>
+    const gateForm = document.getElementById('gate-form')
+    const gateInput = document.getElementById('gate-input')
+    const gateError = document.getElementById('gate-error')
+    const gate = document.getElementById('gate')
+    const main = document.getElementById('main')
+    const audioWrap = document.getElementById('audio-wrap')
+    const btnPlay = document.getElementById('btnPlay')
+    const btnPause = document.getElementById('btnPause')
+    const audioHint = document.getElementById('audioHint')
+    const startStory = document.getElementById('startStory')
+    const reasonsBtn = document.getElementById('reasonsBtn')
+    const reasonsModal = document.getElementById('reasonsModal')
+    const reasonsGrid = document.getElementById('reasonsGrid')
+    const reasonsClose = document.getElementById('reasonsClose')
+    const galleryGrid = document.getElementById('gallery-grid')
+    const loveBtn = document.getElementById('loveBtn')
+    const loveModal = document.getElementById('loveModal')
+    const loveText = document.getElementById('loveText')
+    const loveNext = document.getElementById('loveNext')
+    const loveClose = document.getElementById('loveClose')
+    const lightbox = document.getElementById('lightbox')
+    const lightboxImg = document.getElementById('lightboxImg')
+    const lightboxClose = document.getElementById('lightboxClose')
+    const endgameBtn = document.getElementById('endgameBtn')
+    const endgameOverlay = document.getElementById('endgameOverlay')
+    const endgameCanvas = document.getElementById('endgameCanvas')
+    const landingHearts = document.getElementById('landing-hearts')
+    const gateHearts = document.getElementById('gate-hearts')
+
+    const ANNIVERSARY_PASSWORD = '27/12/2020'
+    const SONG_FILE = 'Sajna Door  Teefa in trouble  Ali Zafar ft Aima Baig  Lyrics and English Translation.mp3'
+    const songUrl = 'public/audio/' + encodeURI(SONG_FILE)
+
+    const audio = new Audio(songUrl)
+    audio.preload = 'auto'
+    audio.volume = 0.45
+    let audioReady = false
+    let audioPlaying = false
+    audio.addEventListener('canplay', function() {
+      audioReady = true
+      updateAudioUI()
+    })
+    audio.addEventListener('ended', function() {
+      audioPlaying = false
+      updateAudioUI()
+    })
+
+    function updateAudioUI() {
+      if (audioReady) {
+        btnPlay.classList.toggle('hidden', audioPlaying)
+        btnPause.classList.toggle('hidden', !audioPlaying)
+        audioHint.textContent = ''
+      } else {
+        btnPlay.classList.add('hidden')
+        btnPause.classList.add('hidden')
+        audioHint.textContent = 'Add your song in /public/audio/ as an .mp3'
+      }
+    }
+    btnPlay.addEventListener('click', function() {
+      audio.play().then(function(){ audioPlaying = true; updateAudioUI() }).catch(function(){})
+    })
+    btnPause.addEventListener('click', function() {
+      audio.pause(); audioPlaying = false; updateAudioUI()
+    })
+
+    gateForm.addEventListener('submit', function(e) {
+      e.preventDefault()
+      const value = gateInput.value.trim()
+      if (value === ANNIVERSARY_PASSWORD) {
+        gateError.style.display = 'none'
+        gate.style.display = 'none'
+        main.classList.remove('hidden')
+        audioWrap.classList.remove('hidden')
+        document.title = 'Our Anniversary'
+        let tries = 0
+        const id = setInterval(function() {
+          tries++
+          audio.play().then(function(){ audioPlaying = true; updateAudioUI(); clearInterval(id) }).catch(function(){})
+          if (tries > 30) clearInterval(id)
+        }, 150)
+      } else {
+        gateError.textContent = "Almost there. Think of the day we first chose us."
+        gateError.style.display = 'block'
+      }
+    })
+
+    startStory.addEventListener('click', function() {
+      audio.play().then(function(){ audioPlaying = true; updateAudioUI() }).catch(function(){})
+      const el = document.getElementById('timeline')
+      if (el) el.scrollIntoView({ behavior: 'smooth' })
+    })
+
+    const reasons = [
+      "You loved me when loving me wasn’t easy.",
+      "You chose me, every day, even when life was heavy.",
+      "You prayed for me when I didn’t even know how to pray for myself.",
+      "You stayed with me in my bad times, not just the good ones.",
+      "You stood beside me when my past and my traumas were loud.",
+      "You cared for me in ways you didn’t have to — but you still did.",
+      "You made me feel safe when I was breaking inside.",
+      "You never made me feel weak for what I was going through.",
+      "You believed in me when I doubted myself.",
+      "You loved me patiently, honestly, and deeply."
+    ]
+    reasonsBtn.addEventListener('click', function() {
+      reasonsGrid.innerHTML = ''
+      reasons.forEach(function(r) {
+        const div = document.createElement('div')
+        div.className = 'card soft-border animate-slide-up'
+        div.style.padding = '16px'
+        const p = document.createElement('p')
+        p.style.color = '#9f1239'
+        p.textContent = r
+        div.appendChild(p)
+        reasonsGrid.appendChild(div)
+      })
+      const extra = document.createElement('div')
+      extra.className = 'card soft-border animate-fade-in'
+      extra.style.textAlign = 'center'
+      extra.textContent = 'I will always choose you.'
+      reasonsGrid.appendChild(extra)
+      reasonsModal.classList.add('show')
+    })
+    reasonsClose.addEventListener('click', function() { reasonsModal.classList.remove('show') })
+    reasonsModal.addEventListener('click', function() { reasonsModal.classList.remove('show') })
+
+    const files = [
+      'WhatsApp Image 2025-12-26 at 5.12.45 PM (1).jpeg',
+      'WhatsApp Image 2025-12-26 at 5.12.45 PM.jpeg',
+      'WhatsApp Image 2025-12-26 at 5.12.46 PM (1).jpeg',
+      'WhatsApp Image 2025-12-26 at 5.12.46 PM (2).jpeg',
+      'WhatsApp Image 2025-12-26 at 5.12.46 PM (3).jpeg',
+      'WhatsApp Image 2025-12-26 at 5.12.46 PM.jpeg',
+      'WhatsApp Image 2025-12-26 at 5.12.47 PM.jpeg',
+      'WhatsApp Image 2025-12-26 at 5.34.13 PM.jpeg'
+    ]
+    const images = files.map(function(name) { return 'public/images/' + encodeURI(name) })
+    images.forEach(function(src) {
+      const button = document.createElement('button')
+      button.className = 'image-tile'
+      const img = document.createElement('img')
+      img.src = src
+      img.alt = 'Our memory'
+      const overlay = document.createElement('div')
+      overlay.className = 'image-overlay'
+      button.appendChild(img)
+      button.appendChild(overlay)
+      button.addEventListener('click', function() {
+        lightboxImg.src = src
+        lightbox.classList.add('show')
+      })
+      galleryGrid.appendChild(button)
+    })
+    lightboxClose.addEventListener('click', function() { lightbox.classList.remove('show') })
+    lightbox.addEventListener('click', function() { lightbox.classList.remove('show') })
+
+    const MESSAGES = [
+      "You're more than gorgeous, and you don't even try.",
+      "You're hot. Like… distractingly hot.",
+      "Your figure is so f**king amazing, I still can't believe you're mine.",
+      "I love you more than I know how to explain, bubu.",
+      "You feel like home to me, always.",
+      "I'm proud of you — for who you are and how far you've come.",
+      "Love your 🍑 heheh yumy",
+      "LOVE YOUR BALLOONS, my fav hehe 🤭",
+      "You choose me, and that still means everything to me.",
+      "You stayed with me when things were hard, and I'll never forget that.",
+      "You make even boring days feel special.",
+      "You're not just beautiful — you're comforting, strong, and real.",
+      "I'll always choose you, bubu ❤️",
+      "I love it when you sit on my lap — that moment feels like i own everybit of you",
+      "You make life feel lighter just by being in it."
+    ]
+    let loveIndex = null
+    function nextLoveIndex() {
+      if (MESSAGES.length === 0) return null
+      if (MESSAGES.length === 1) return 0
+      let i = Math.floor(Math.random() * MESSAGES.length)
+      if (loveIndex !== null) { while (i === loveIndex) i = Math.floor(Math.random() * MESSAGES.length) }
+      return i
+    }
+    loveBtn.addEventListener('click', function() {
+      const i = nextLoveIndex()
+      if (i === null) return
+      loveIndex = i
+      loveText.textContent = MESSAGES[i]
+      loveModal.classList.add('show')
+    })
+    loveNext.addEventListener('click', function() {
+      const i = nextLoveIndex()
+      if (i === null) return
+      loveIndex = i
+      loveText.textContent = MESSAGES[i]
+    })
+    loveClose.addEventListener('click', function() { loveModal.classList.remove('show') })
+
+    function lastDayOfMonth(y, m) { return new Date(y, m + 1, 0).getDate() }
+    function diffParts(start, now) {
+      let years = now.getFullYear() - start.getFullYear()
+      let months = now.getMonth() - start.getMonth()
+      let days = now.getDate() - start.getDate()
+      if (months < 0 || (months === 0 && days < 0)) years--
+      months = now.getMonth() - start.getMonth()
+      if (days < 0) months--
+      if (months < 0) months += 12
+      const anchorYear = start.getFullYear() + years
+      const anchorMonth = start.getMonth() + months
+      const anchorDay = Math.min(start.getDate(), lastDayOfMonth(anchorYear, anchorMonth))
+      const anchor = new Date(anchorYear, anchorMonth, anchorDay, start.getHours(), start.getMinutes(), start.getSeconds())
+      const ms = now.getTime() - anchor.getTime()
+      const hourMs = 1000 * 60 * 60
+      const minMs = 1000 * 60
+      days = Math.floor(ms / (24 * hourMs))
+      const hours = Math.floor((ms % (24 * hourMs)) / hourMs)
+      const minutes = Math.floor((ms % hourMs) / minMs)
+      const seconds = Math.floor((ms % minMs) / 1000)
+      return { years, months, days, hours, minutes, seconds }
+    }
+    const START_DATE = new Date('2020-12-27 00:00')
+    function updateCounter() {
+      const d = diffParts(START_DATE, new Date())
+      document.getElementById('years').textContent = d.years
+      document.getElementById('months').textContent = d.months
+      document.getElementById('days').textContent = d.days
+      document.getElementById('hours').textContent = d.hours
+      document.getElementById('minutes').textContent = d.minutes
+      document.getElementById('seconds').textContent = d.seconds
+    }
+    updateCounter()
+    setInterval(updateCounter, 1000)
+
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('show') })
+    }, { threshold: 0.2 })
+    Array.prototype.slice.call(document.querySelectorAll('.reveal')).forEach(function(i){ observer.observe(i) })
+
+    function populateHearts(container, count) {
+      container.innerHTML = ''
+      for (let i = 0; i < count; i++) {
+        const s = document.createElement('span')
+        s.className = 'heart animate-float-heart'
+        s.style.left = (Math.random()*100) + '%'
+        s.style.bottom = (Math.random()*100) + '%'
+        s.style.animationDelay = (i * 0.5) + 's'
+        s.style.opacity = (0.25 + Math.random()*0.5).toString()
+        container.appendChild(s)
+      }
+    }
+    populateHearts(landingHearts, 24)
+    populateHearts(gateHearts, 18)
+
+    endgameBtn.addEventListener('click', function() {
+      endgameOverlay.classList.add('show')
+      document.body.style.overflow = 'hidden'
+      const canvas = endgameCanvas
+      const ctx = canvas.getContext('2d')
+      let raf = 0
+      function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight }
+      resize()
+      let particles = []
+      let cursorX = canvas.width / 2
+      let cursorY = canvas.height / 2
+      function onMove(e) {
+        cursorX = e.clientX
+        cursorY = e.clientY
+        for (let i = 0; i < 4; i++) {
+          particles.push({ x: cursorX + (Math.random()-0.5)*12, y: cursorY + (Math.random()-0.5)*12, vx: (Math.random()-0.5)*0.6, vy: -0.6 - Math.random()*0.6, life: 1 })
+        }
+      }
+      window.addEventListener('mousemove', onMove)
+      window.addEventListener('resize', resize)
+      function step() {
+        ctx.clearRect(0,0,canvas.width,canvas.height)
+        for (let i = particles.length - 1; i >= 0; i--) {
+          const p = particles[i]
+          p.x += p.vx
+          p.y += p.vy
+          p.life -= 0.01
+          if (p.life <= 0) { particles.splice(i,1); continue }
+          const grd = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, 14)
+          grd.addColorStop(0, 'rgba(255,109,149,0.8)')
+          grd.addColorStop(1, 'rgba(255,109,149,0)')
+          ctx.fillStyle = grd
+          ctx.beginPath()
+          ctx.arc(p.x, p.y, 8, 0, Math.PI*2)
+          ctx.fill()
+        }
+        raf = requestAnimationFrame(step)
+      }
+      raf = requestAnimationFrame(step)
+    })
+  </script>
+</body>
+</html>
