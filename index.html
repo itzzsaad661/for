@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Private anniversary website — emotional, premium, and personal." />
   <title>Welcome</title>
+  <link rel="stylesheet" href="dist/assets/index-CqaBg32P.css">
   <style>
     :root { --rose-50:#fff1f5; --rose-100:#ffe4ea; --rose-200:#ffcbd7; --rose-400:#ff6d95; --rose-500:#ff447a; --rose-600:#e73369; --rose-700:#bf2554; --romance:#ff6d95 }
     * { box-sizing: border-box }
@@ -41,8 +42,9 @@
     .modal { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; padding: 16px; background: rgba(0,0,0,.5); backdrop-filter: blur(3px); z-index: 50 }
     .modal.show { display: flex }
     .lightbox-img { width: 100%; max-height: 80vh; object-fit: contain; border-radius: 16px; box-shadow: 0 20px 40px rgba(0,0,0,.25) }
-    .fixed-audio { position: fixed; right: 20px; bottom: 20px; z-index: 40; width: 92vw; max-width: 520px }
-    .caption { margin-top: 6px; text-align: center; font-size: 12px; color: #9f1239 }
+    .fixed-audio { position: fixed; right: calc(20px + env(safe-area-inset-right, 0px)); bottom: calc(20px + env(safe-area-inset-bottom, 0px)); z-index: 40; width: 96vw; max-width: 520px }
+    @media(min-width:640px){ .fixed-audio { width: 92vw } }
+    .caption { margin-top: 6px; text-align: center; font-size: clamp(11px, 3.2vw, 14px); color: #9f1239 }
     .hidden { display: none !important }
     .breathe { animation: breathe 6s ease-in-out infinite } @keyframes breathe { 0%,100%{transform:scale(1)}50%{transform:scale(1.02)} }
     .gradient-motion { background-size: cover; background-position: center; background-repeat: no-repeat }
@@ -52,84 +54,88 @@
     .image-tile:hover img { transform: scale(1.05) }
     .image-overlay { position:absolute; inset:0; background: linear-gradient(to top, rgba(255, 228, 234, .5), transparent); opacity:0; transition: opacity .25s ease }
     .image-tile:hover .image-overlay { opacity:1 }
+    .stack-sm { display:flex; align-items:center; justify-content:center; gap:12px }
+    @media(max-width:480px){ .stack-sm { flex-direction: column } }
+    .btn { min-height: 44px; touch-action: manipulation }
   </style>
 </head>
-<body>
-  <div id="gate" class="relative" style="min-height:100vh; display:flex; align-items:center; justify-content:center; overflow:hidden">
+<body class="bg-rose-50 text-gray-800">
+  <div class="min-h-screen bg-gradient-to-b from-rose-50 via-rose-100 to-rose-50">
+  <div id="gate" class="relative flex items-center justify-center min-h-screen overflow-hidden">
     <div id="gate-hearts" class="absolute inset-0 pointer-events-none" style="opacity:.3"></div>
-    <div class="card soft-border" style="width:92%; max-width:560px; text-align:center">
-      <h1 style="font-size:28px">For us only</h1>
-      <p style="margin-top:8px; font-size:14px; color:#e11d48">Enter the date we started (DD/MM/YYYY)</p>
-      <form id="gate-form" style="margin-top:16px">
+    <div class="card soft-border w-[92%] max-w-md text-center">
+      <h1 class="text-2xl sm:text-3xl font-semibold text-rose-700">For us only</h1>
+      <p class="mt-2 text-sm text-rose-600">Enter the date we started (DD/MM/YYYY)</p>
+      <form id="gate-form" class="mt-6 space-y-4">
         <input id="gate-input" inputmode="text" maxlength="10" placeholder="DD/MM/YYYY" style="width:100%; border-radius:14px; border:1px solid var(--rose-100); background:rgba(255,255,255,.8); padding:12px 14px; text-align:center; font-size:18px; letter-spacing:.12em; outline:none" />
-        <button class="btn btn-primary" style="width:100%; margin-top:12px">Enter</button>
+        <button class="w-full rounded-xl bg-rose-500 text-white py-3 font-medium hover:bg-rose-600 transition" style="margin-top:12px">Enter</button>
         <p id="gate-error" class="animate-fade-in" style="display:none; margin-top:8px; font-size:13px; color:#e11d48"></p>
-        <p style="margin-top:8px; font-size:11px; color:#fb7185">Password stays on your device only.</p>
+        <p class="text-xs text-rose-400 mt-3">Password stays on your device only.</p>
       </form>
     </div>
   </div>
 
   <div id="audio-wrap" class="fixed-audio hidden">
-    <div class="card soft-border" style="display:flex; align-items:center; gap:12px; width:100%">
-      <span style="color:var(--rose-700); font-weight:500">Music</span>
-      <button id="btnPlay" class="btn btn-primary">Play</button>
-      <button id="btnPause" class="btn btn-primary hidden">Pause</button>
-      <span id="audioHint" style="color:#fb7185; font-size:13px; margin-left:auto"></span>
+    <div class="card soft-border flex items-center gap-3 w-full">
+      <span class="text-rose-700 font-medium">Music</span>
+      <button id="btnPlay" class="rounded-full bg-rose-500 text-white px-3 py-1">Play</button>
+      <button id="btnPause" class="rounded-full bg-rose-500 text-white px-3 py-1 hidden">Pause</button>
+      <span id="audioHint" class="text-rose-400 text-sm ml-auto"></span>
     </div>
     <p class="caption animate-fade-in">This song reminds me of you.<br />I play it when I miss you… even when you’re right here.</p>
   </div>
 
-  <header id="landing" class="relative" style="min-height:70vh; display:flex; align-items:center; justify-content:center">
+  <header id="landing" class="relative min-h-[68vh] sm:min-h-[72vh] flex items-center justify-center">
     <div id="landing-hearts" class="absolute inset-0 pointer-events-none"></div>
     <div class="container-padded" style="text-align:center; padding:96px 0">
-      <h1 class="animate-slide-up" style="font-size:48px">Happy 5 Years, My Love ❤️</h1>
-      <p class="typewriter" style="margin-top:12px; font-size:18px; color:#fb7185; max-width:720px; margin-left:auto; margin-right:auto">Five years of choosing you — quiet mornings, late walks, and home in your smile.</p>
-      <div style="margin-top:28px; display:flex; align-items:center; justify-content:center; gap:12px">
-        <button id="startStory" class="btn btn-primary shadow-glow">Start Our Story</button>
-        <button id="reasonsBtn" class="btn btn-outline shadow-glow">Click to see why I choose you every day 💖</button>
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold text-rose-700 drop-shadow-sm animate-slide-up">Happy 5 Years, My Love ❤️</h1>
+      <p class="mt-4 text-base sm:text-lg md:text-xl text-rose-600 mx-auto max-w-2xl overflow-hidden whitespace-nowrap border-r-2 border-rose-400 motion-safe:animate-typewriter">Five years of choosing you — quiet mornings, late walks, and home in your smile.</p>
+      <div id="landing-actions" class="mt-10 flex items-center justify-center gap-4">
+        <button id="startStory" class="rounded-full bg-rose-500 text-white px-6 py-3 font-semibold shadow-glow hover:bg-rose-600 transition">Start Our Story</button>
+        <button id="reasonsBtn" class="rounded-full bg-white/80 soft-border text-rose-700 px-5 py-3 font-medium hover:bg-white shadow hover:shadow-glow transition">Click to see why I choose you every day 💖</button>
       </div>
     </div>
   </header>
 
-  <main id="main" class="container-padded hidden" style="padding-bottom:110px">
+  <main id="main" class="container-padded space-y-16 pb-28 hidden">
     <section id="timeline">
       <div class="relative">
-        <h2 style="font-size:28px; margin-bottom:16px">Our timeline</h2>
-        <div class="grid grid-2">
+        <h2 class="text-2xl sm:text-3xl font-semibold text-rose-700 mb-6">Our timeline</h2>
+        <div class="grid md:grid-cols-2 gap-6">
           <div class="card soft-border reveal">
-            <div style="display:flex; align-items:center; gap:10px"><span style="font-size:20px">🥰</span><h3 style="font-size:20px">Year 1 · Just Friends, Forever Close</h3></div>
-            <p style="margin-top:8px; color:#9f1239">We started as just friends, but so deeply connected. Laughing endlessly, sharing everything — some of the best days of my life were born here.</p>
+            <div class="flex items-center gap-3"><span class="text-xl">🥰</span><h3 class="text-lg sm:text-xl font-semibold text-rose-700">Year 1 · Just Friends, Forever Close</h3></div>
+            <p class="mt-2 text-rose-700/90">We started as just friends, but so deeply connected. Laughing endlessly, sharing everything — some of the best days of my life were born here.</p>
           </div>
           <div class="card soft-border reveal">
-            <div style="display:flex; align-items:center; gap:10px"><span style="font-size:20px">🌿</span><h3 style="font-size:20px">Year 2 · Our Golden Moments</h3></div>
-            <p style="margin-top:8px; color:#9f1239">This year gave us memories we’ll always hold close. Everything felt brighter, happier, and full of love.</p>
+            <div class="flex items-center gap-3"><span class="text-xl">🌿</span><h3 class="text-lg sm:text-xl font-semibold text-rose-700">Year 2 · Our Golden Moments</h3></div>
+            <p class="mt-2 text-rose-700/90">This year gave us memories we’ll always hold close. Everything felt brighter, happier, and full of love.</p>
           </div>
           <div class="card soft-border reveal">
-            <div style="display:flex; align-items:center; gap:10px"><span style="font-size:20px">☕️</span><h3 style="font-size:20px">Year 3 · Growing Through It All</h3></div>
-            <p style="margin-top:8px; color:#9f1239">Not everything was easy — there were ups and downs. But those moments made us stronger, closer, and better together.</p>
+            <div class="flex items-center gap-3"><span class="text-xl">☕️</span><h3 class="text-lg sm:text-xl font-semibold text-rose-700">Year 3 · Growing Through It All</h3></div>
+            <p class="mt-2 text-rose-700/90">Not everything was easy — there were ups and downs. But those moments made us stronger, closer, and better together.</p>
           </div>
           <div class="card soft-border reveal">
-            <div style="display:flex; align-items:center; gap:10px"><span style="font-size:20px">💪</span><h3 style="font-size:20px">Year 4 · Moments That Meant Everything</h3></div>
-            <p style="margin-top:8px; color:#9f1239">Our meetups became the highlight of everything. Time with you felt special, comforting, and unforgettable.</p>
+            <div class="flex items-center gap-3"><span class="text-xl">💪</span><h3 class="text-lg sm:text-xl font-semibold text-rose-700">Year 4 · Moments That Meant Everything</h3></div>
+            <p class="mt-2 text-rose-700/90">Our meetups became the highlight of everything. Time with you felt special, comforting, and unforgettable.</p>
           </div>
           <div class="card soft-border reveal">
-            <div style="display:flex; align-items:center; gap:10px"><span style="font-size:20px">🏡</span><h3 style="font-size:20px">Year 5 · Deeply Us</h3></div>
-            <p style="margin-top:8px; color:#9f1239">Now we’re completely into each other — connected, longing, and choosing one another every day. Our love feels deeper than ever</p>
+            <div class="flex items-center gap-3"><span class="text-xl">🏡</span><h3 class="text-lg sm:text-xl font-semibold text-rose-700">Year 5 · Deeply Us</h3></div>
+            <p class="mt-2 text-rose-700/90">Now we’re completely into each other — connected, longing, and choosing one another every day. Our love feels deeper than ever</p>
           </div>
         </div>
       </div>
     </section>
 
     <section id="gallery" style="margin-top:40px">
-      <h2 style="font-size:28px; margin-bottom:16px">Photos I love</h2>
-      <div id="gallery-grid" class="grid" style="grid-template-columns: repeat(2, minmax(0,1fr))"></div>
+      <h2 class="text-2xl sm:text-3xl font-semibold text-rose-700 mb-6">Photos I love</h2>
+      <div id="gallery-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3"></div>
     </section>
 
     <section id="letter" style="margin-top:40px">
       <div class="card soft-border">
-        <h2 style="font-size:28px; margin-bottom:12px">A letter for you</h2>
+        <h2 class="text-2xl sm:text-3xl font-semibold text-rose-700 mb-4">A letter for you</h2>
         <div style="background: rgba(255,255,255,.7); border-radius:16px; padding:18px; box-shadow: 0 2px 8px rgba(0,0,0,.04)">
-          <p style="font-family: 'Segoe Script','Brush Script MT','Lucida Handwriting',cursive; font-size:18px; line-height:1.6; color:#9f1239">
+          <p class="font-hand text-base sm:text-lg leading-relaxed text-rose-700/95">
             To My bubu,<br /><br />
             Five years ago, we started a journey that began with simple laughter and a friendship that felt like home. Looking at our timeline today, I am overwhelmed by how much life we have lived in such a short time. We’ve gone from "Just Friends" to "Deeply Us," and every version of us along the way has been my favorite.<br /><br />
             I love the way we’ve grown together. I love that you are still the person who makes me laugh at my own jokes and the person who makes the world feel soft when everything else feels loud. Whether we are walking through a crowded street or just sitting in the quiet of our room, my hand always finds yours because that is where I feel most at peace.<br /><br />
@@ -142,37 +148,37 @@
     </section>
 
     <section id="reminder" style="margin-top:40px; text-align:center">
-      <h2 style="font-size:28px">A little reminder 💖</h2>
+      <h2 class="text-2xl sm:text-3xl font-semibold text-rose-700">A little reminder 💖</h2>
       <div style="margin-top:12px; display:flex; justify-content:center">
-        <button id="loveBtn" class="btn btn-primary shadow-glow">click me harder babes</button>
+        <button id="loveBtn" class="rounded-full bg-rose-500 text-white px-6 py-3 font-semibold shadow-glow hover:bg-rose-600 transition">click me harder babes</button>
       </div>
     </section>
 
     <section id="counter" style="margin-top:40px">
-      <div class="card soft-border" style="text-align:center">
-        <p style="color:var(--rose-700); font-weight:500">We’ve been together for</p>
-        <div style="margin-top:8px; display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:10px">
-          <div class="count-pulse"><span style="font-size:22px; color:var(--rose-700); font-weight:600" id="years">0</span><span style="margin-left:4px; color:#9f1239">years</span></div>
-          <div class="count-pulse"><span style="font-size:22px; color:var(--rose-700); font-weight:600" id="months">0</span><span style="margin-left:4px; color:#9f1239">months</span></div>
-          <div class="count-pulse"><span style="font-size:22px; color:var(--rose-700); font-weight:600" id="days">0</span><span style="margin-left:4px; color:#9f1239">days</span></div>
-          <div class="count-pulse"><span style="font-size:22px; color:var(--rose-700); font-weight:600" id="hours">0</span><span style="margin-left:4px; color:#9f1239">hours</span></div>
-          <div class="count-pulse"><span style="font-size:22px; color:var(--rose-700); font-weight:600" id="minutes">0</span><span style="margin-left:4px; color:#9f1239">minutes</span></div>
-          <div class="count-pulse"><span style="font-size:22px; color:var(--rose-700); font-weight:600" id="seconds">0</span><span style="margin-left:4px; color:#9f1239">seconds</span></div>
-          <span class="heart-pulse" style="margin-left:8px; color:var(--rose-500)">❤️</span>
+      <div class="card soft-border text-center">
+        <p class="text-rose-700 font-medium">We’ve been together for</p>
+        <div class="mt-2 flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
+          <div class="count-pulse"><span class="text-xl sm:text-2xl text-rose-700 font-semibold" id="years">0</span><span class="ml-1 text-rose-700/80">years</span></div>
+          <div class="count-pulse"><span class="text-xl sm:text-2xl text-rose-700 font-semibold" id="months">0</span><span class="ml-1 text-rose-700/80">months</span></div>
+          <div class="count-pulse"><span class="text-xl sm:text-2xl text-rose-700 font-semibold" id="days">0</span><span class="ml-1 text-rose-700/80">days</span></div>
+          <div class="count-pulse"><span class="text-xl sm:text-2xl text-rose-700 font-semibold" id="hours">0</span><span class="ml-1 text-rose-700/80">hours</span></div>
+          <div class="count-pulse"><span class="text-xl sm:text-2xl text-rose-700 font-semibold" id="minutes">0</span><span class="ml-1 text-rose-700/80">minutes</span></div>
+          <div class="count-pulse"><span class="text-xl sm:text-2xl text-rose-700 font-semibold" id="seconds">0</span><span class="ml-1 text-rose-700/80">seconds</span></div>
+          <span class="ml-2 text-rose-500 heart-pulse">❤️</span>
         </div>
       </div>
     </section>
 
     <section id="final" style="margin-top:40px">
-      <div class="card soft-border" style="text-align:center">
-        <h2 style="font-size:32px; font-weight:700">Still you. Always you.</h2>
-        <p style="margin-top:8px; color:#fb7185">Happy Anniversary ❤️</p>
+      <div class="card soft-border text-center motion-safe:animate-soft-glow">
+        <h2 class="text-3xl sm:text-4xl font-bold text-rose-700">Still you. Always you.</h2>
+        <p class="mt-2 text-rose-600">Happy Anniversary ❤️</p>
       </div>
     </section>
 
     <section id="endgame" style="margin-top:40px">
       <div style="display:flex; justify-content:center">
-        <button id="endgameBtn" class="btn btn-primary shadow-glow">One last click, bubu</button>
+        <button id="endgameBtn" class="rounded-full bg-rose-500 text-white px-6 py-3 font-semibold shadow-glow hover:bg-rose-600 transition">One last click, bubu</button>
       </div>
     </section>
   </main>
@@ -208,13 +214,15 @@
     </div>
   </div>
 
-  <div id="endgameOverlay" class="modal" style="z-index:1000; background-image:url('public/images/Gemini_Generated_Image_vvq3qrvvq3qrvvq3.png')" onclick="event.stopPropagation()">
+  <div id="endgameOverlay" class="modal z-[1000] gradient-motion" style="background-image:url('public/images/Gemini_Generated_Image_vvq3qrvvq3qrvvq3.png')" onclick="event.stopPropagation()">
     <canvas id="endgameCanvas" style="position:absolute; inset:0"></canvas>
     <div class="breathe" style="text-align:center; position:relative">
-      <div class="animate-fade-in" style="color:var(--rose-700); font-size:24px; font-weight:600; animation-delay:200ms">No matter what changes…</div>
-      <div class="animate-fade-in" style="margin-top:8px; color:var(--rose-700); font-size:24px; font-weight:600; animation-delay:1200ms">one thing won’t.</div>
-      <div class="animate-fade-in" style="margin-top:16px; color:var(--rose-700); font-size:32px; font-weight:700; animation-delay:2200ms">It’s you.</div>
+      <div class="opacity-0 animate-fade-in motion-safe:animate-slide-up text-rose-700 text-2xl sm:text-3xl font-semibold" style="animation-delay:200ms">No matter what changes…</div>
+      <div class="mt-3 opacity-0 animate-fade-in motion-safe:animate-slide-up text-rose-700 text-2xl sm:text-3xl font-semibold" style="animation-delay:1200ms">one thing won’t.</div>
+      <div class="mt-6 opacity-0 animate-fade-in motion-safe:animate-slide-up text-rose-700 text-3xl sm:text-4xl font-bold" style="animation-delay:2200ms">It’s you.</div>
     </div>
+  </div>
+
   </div>
 
   <script>
@@ -466,8 +474,9 @@
         container.appendChild(s)
       }
     }
-    populateHearts(landingHearts, 24)
-    populateHearts(gateHearts, 18)
+    const isNarrow = window.innerWidth < 480
+    populateHearts(landingHearts, isNarrow ? 16 : 24)
+    populateHearts(gateHearts, isNarrow ? 12 : 18)
 
     endgameBtn.addEventListener('click', function() {
       endgameOverlay.classList.add('show')
